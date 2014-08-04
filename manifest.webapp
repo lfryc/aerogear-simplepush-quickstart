@@ -1,0 +1,21 @@
+{
+  "version": "0.1",
+  "name": "SimplePush QuickStart",
+  "description": "AeroGear SimplePush QuickStart",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "AeroGear",
+    "url": "http://aerogear.org"
+  },
+"permissions": {
+    "push": {},
+    "desktop-notification": {}
+  },
+  "icons": {
+    "128": "/img/icon-128.png"
+  },
+  "messages": [
+    { "push": "/" },
+    { "push-register": "/" }
+  ]
+}
