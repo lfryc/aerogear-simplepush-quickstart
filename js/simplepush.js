@@ -1,8 +1,10 @@
 (function() {
-    var mailEndpoint, mailRequest, SPClient, regs;
+    var mailEndpoint, mailRequest, SPClient,
+        useNative = !!navigator.push;
 
     // onConnect callback function:
     function spConnect() {
+        $("#connect").hide();
         getTextAreaElement().value = "Connection established!";
 
         // use 'PushManager' to request a new PushServer URL endpoint for 'mail' notifications:
@@ -18,7 +20,7 @@
         };
 
         // set the notification handler:
-        navigator.setMessageHandler( "push", function( message ) {
+        navigator.mozSetMessageHandler( "push", function( message ) {
             // we got message for our 'mail' endpoint ?
             if ( message.pushEndpoint === mailEndpoint ) {
                 // let's react on that mail....
@@ -30,6 +32,7 @@
     function appendTextArea(newData) {
         var el = getTextAreaElement();
         el.value = el.value + '\n' + newData;
+        console.log(newData);
     }
 
     function getTextAreaElement() {
@@ -48,9 +51,12 @@
         appendTextArea("\nConnection Lost!\n");
     }
 
-    SPClient = AeroGear.SimplePushClient({
-        simplePushServerURL: "http://localhost:7777/simplepush",
-        onConnect: spConnect,
-        onClose: spClose
+    $("#connect").on("click", function(event) {
+        SPClient = AeroGear.SimplePushClient({
+            simplePushServerURL: "http://localhost:7777/simplepush",
+            onConnect: spConnect,
+            onClose: spClose,
+            useNative: useNative
+        });
     });
 })();
